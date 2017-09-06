@@ -64,8 +64,14 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //Crude way of retrieving and displaying JSON
-                        tempText.setText(response.substring(10, response.length()-2) + "°C");
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            response = jsonResponse.getString("temp");
+                            response = response + "°C";
+                            tempText.setText(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
