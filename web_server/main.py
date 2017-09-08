@@ -22,15 +22,15 @@ def return_temp():
 
 @application.route('/gettempjson')
 def temp_json():
-    ser = serial.Serial('COM3', 9600, timeout=50)
-    while True:
-        time.sleep(2)
-        temp = str(ser.readline().strip())
-        if temp != "b''":
-            temp = float(temp[2:-1])
-            print(temp)
-            break
-    return {'temp': str(temp)}
+    if ser:
+        while True:
+            temp = ser.readline()
+            tempStripped = str(temp.strip())
+            if tempStripped != "b''":
+                tempStripped = float(tempStripped[2:-1])
+                print(tempStripped)
+                break
+    return {'temp': str(tempStripped)}
 
 @application.route('/')
 def index():
